@@ -1,0 +1,39 @@
+load("@rules_java//java:defs.bzl", "java_library", "java_binary")
+load("@missing_bazel_module//:java.bzl", "custom_java_rule")
+
+# Java targets with missing dependencies
+java_library(
+    name = "java_lib",
+    srcs = glob(["src/main/java/**/*.java"]),
+    deps = [
+        "@maven//:com_google_guava_guava",
+        "@maven//:com_example_missing_artifact", 
+        "@maven//:org_nonexistent_fake_lib",
+        "@local_missing_module//:core"
+    ],
+    visibility = ["//visibility:public"]
+)
+
+java_binary(
+    name = "java_app",
+    main_class = "com.example.Main",
+    runtime_deps = [
+        ":java_lib",
+        "@missing_archive_module//:runtime"
+    ]
+)
+
+# Custom rule from missing module
+custom_java_rule(
+    name = "custom_test",
+    srcs = ["test.java"],
+    deps = ["@nonexistent_rules//:testing"]
+)
+
+# References to missing workspace paths
+genrule(
+    name = "generate_config",
+    srcs = ["//missing-workspace-path:config.template"],
+    outs = ["config.generated"],
+    cmd = "cp $< $@"
+)
