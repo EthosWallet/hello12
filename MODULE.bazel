@@ -1,0 +1,36 @@
+module(
+    name = "dependency_test_module",
+    version = "1.0.0"
+)
+
+# Bazel module dependencies (potential confusion)
+bazel_dep(name = "rules_cc", version = "0.0.6")
+bazel_dep(name = "rules_java", version = "6.0.0")
+bazel_dep(name = "missing_bazel_module", version = "1.2.3")
+bazel_dep(name = "fake_test_module", version = "2.0.0")
+bazel_dep(name = "nonexistent_rules", version = "0.1.0")
+
+# Git overrides (potential repo jacking)
+git_override(
+    module_name = "missing_module_override",
+    remote = "https://github.com/test-org/missing-module-override.git",
+    commit = "abcdef123456"
+)
+
+# Archive overrides (dependency confusion)
+archive_override(
+    module_name = "missing_archive_module",
+    urls = ["https://github.com/missing-test/archive-module/archive/v1.0.tar.gz"],
+    strip_prefix = "archive-module-1.0"
+)
+
+# Local path overrides (workspace vulnerabilities)  
+local_path_override(
+    module_name = "local_missing_module",
+    path = "../missing-local-module"
+)
+
+local_path_override(
+    module_name = "internal_missing_tools",
+    path = "./tools/missing-internal"
+)
