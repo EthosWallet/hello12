@@ -1,0 +1,27 @@
+{
+  "lockFileVersion": 3,
+  "moduleDepGraph": {
+    "dependency_test_module": {
+      "name": "dependency_test_module", 
+      "version": "1.0.0",
+      "key": "dependency_test_module@1.0.0",
+      "deps": {
+        "rules_cc": "rules_cc@0.0.6",
+        "rules_java": "rules_java@6.0.0",
+        "missing_bazel_module": "missing_bazel_module@1.2.3",
+        "fake_test_module": "fake_test_module@2.0.0",
+        "nonexistent_rules": "nonexistent_rules@0.1.0"
+      }
+    },
+    "missing_bazel_module@1.2.3": {
+      "name": "missing_bazel_module",
+      "version": "1.2.3", 
+      "key": "missing_bazel_module@1.2.3"
+    },
+    "fake_test_module@2.0.0": {
+      "name": "fake_test_module",
+      "version": "2.0.0",
+      "key": "fake_test_module@2.0.0"
+    }
+  }
+}
