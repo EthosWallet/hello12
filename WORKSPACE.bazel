@@ -1,0 +1,44 @@
+workspace(name = "test_workspace_bazel")
+
+# Test different syntax variations
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository", "new_git_repository")
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
+
+# Missing GitHub repositories for repo jacking detection
+git_repository(
+    name = "missing_auth_lib",
+    remote = "https://github.com/security-test/missing-auth-lib.git",
+    branch = "main"
+)
+
+new_git_repository(
+    name = "vulnerable_crypto",
+    remote = "https://github.com/crypto-test/vulnerable-crypto.git", 
+    commit = "1234567890abcdef",
+    build_file_content = """
+cc_library(
+    name = "crypto",
+    srcs = ["crypto.cc"],
+    hdrs = ["crypto.h"],
+    visibility = ["//visibility:public"],
+)
+"""
+)
+
+# HTTP archives with missing dependencies
+http_archive(
+    name = "missing_rules_test",
+    strip_prefix = "rules_test-1.0",
+    urls = ["https://github.com/missing-org/rules_test/archive/v1.0.tar.gz"]
+)
+
+# Local repos with missing paths
+local_repository(
+    name = "missing_workspace_lib",
+    path = "../../nonexistent/workspace/lib"
+)
+
+local_repository(
+    name = "test_private_lib", 
+    path = "./private-lib-missing"
+)
