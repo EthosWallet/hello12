@@ -1,0 +1,14 @@
+# Build configuration that might reference missing paths
+build --override_repository=missing_local_repo=../missing-path
+build --override_repository=test_workspace=./missing-test-workspace
+
+# Test configurations
+test --test_output=errors
+test --override_repository=test_utils=../missing-test-utils
+
+# Remote cache configuration (potential confusion)
+build --remote_cache=grpc://missing-cache-server:9092
+build --disk_cache=../missing-cache-dir
+
+# Workspace overrides for missing dependencies
+build --experimental_override_repository=missing_workspace=../nonexistent/workspace
